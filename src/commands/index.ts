@@ -16,7 +16,12 @@ const help = `
   </div>
 `;
 
-const whoami: string = `${navigator.userAgent}`;
+const mybrowser: string = `${navigator.userAgent}`;
+const myversion: string = `${navigator.appVersion}`;
+const myplatform: string = `${navigator.platform}`;
+const mylang: string = `${navigator.language}`;
+const isOnline: string = `${navigator.onLine}`;
+const isCookieEnabled: string = `${navigator.cookieEnabled}`;
 const fileList: String[] = ["virus-kamal.txt"];
 
 // To Execute Command
@@ -37,8 +42,23 @@ export const executeCommand = async (
     case "h":
       setOutput([...output, help]);
       break;
-    case "whoami":
-      setOutput([...output, whoami]);
+    case "mybrowser":
+      setOutput([...output, mybrowser]);
+      break;
+    case "myversion":
+      setOutput([...output, myversion]);
+      break;
+    case "myplatform":
+      setOutput([...output, myplatform]);
+      break;
+    case "mylang":
+      setOutput([...output, mylang]);
+      break;
+    case "online":
+      setOutput([...output, isOnline]);
+      break;
+    case "cookie":
+      setOutput([...output, isCookieEnabled]);
       break;
     case "clear":
       setOutput([]);
@@ -75,12 +95,10 @@ export const executeCommand = async (
       );
       break;
     case "download":
+    case "dd":
       const fileName = args[0];
       if (!fileName) {
-        setOutput([
-          ...output,
-          `Usage: download <file>. Type 'help' or 'h' to view a list of available commands.`,
-        ]);
+        setOutput([...output, "Usage: download <file>"]);
         break;
       }
 
