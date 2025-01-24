@@ -1,5 +1,6 @@
 // commands.ts
 // help | h ✔
+
 const help = `
   <div class="bg-[#333333] text-white p-2 rounded-md">
     <h3 class="text-lg font-semibold">Available Commands:</h3>
@@ -10,6 +11,7 @@ const help = `
       <li><span class="text-green-400">ipinfo</span> - Displays your public IP information</li>
       <li><span class="text-red-600">core</span>     - Magic Command : redirect to raflyasligalek-core</li>
       <li><span class="text-red-600"> c3d </span>    - Magic Command : redirect to chainsaw 3d</li>
+      <li><span class="text-blue-400">download &lt;file&gt;</span> - Downloads the specified file from the root folder</li>
     </ul>
   </div>
 `;
@@ -27,7 +29,9 @@ export const executeCommand = async (
   _historyIndex: number,
   setCommand: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  switch (command.trim().toLowerCase()) {
+  const [cmd, ...args] = command.trim().split(" ");
+
+  switch (cmd.toLowerCase()) {
     case "help":
     case "h":
       setOutput([...output, help]);
@@ -76,6 +80,23 @@ export const executeCommand = async (
         "noopener,noreferrer"
       );
       break;
+      case "download":
+        if (args.length === 0) {
+          setOutput([...output, "Usage: download <file> - Please specify the file to download."]);
+        } else {
+          const fileName = args.join(" ");
+          try {
+            setOutput([...output, `Downloading file: ${fileName}`]);
+            const link = document.createElement("a");
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } catch (error: any) {
+            setOutput([...output, `Error: Unable to download file: ${fileName}`]);
+          }
+        }
+        break;
     case "":
       setOutput([
         ...output,
