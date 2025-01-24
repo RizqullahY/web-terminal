@@ -4,10 +4,12 @@ const help = `
   <div class="bg-[#333333] text-white p-2 rounded-md">
     <h3 class="text-lg font-semibold">Available Commands:</h3>
     <ul class="list-inside space-y-2 mt-2">
-      <li><span class="text-green-400">help</span> - Displays available commands</li>
+      <li><span class="text-green-400">help</span>   - Displays available commands</li>
       <li><span class="text-green-400">whoami</span> - Displays user browser information</li>
-      <li><span class="text-green-400">clear</span> - Clears the terminal</li>
+      <li><span class="text-green-400">clear</span>  - Clears the terminal</li>
       <li><span class="text-green-400">ipinfo</span> - Displays your public IP information</li>
+      <li><span class="text-red-600">core</span>     - Magic Command : redirect to raflyasligalek-core</li>
+      <li><span class="text-red-600"> c3d </span>    - Magic Command : redirect to chainsaw 3d</li>
     </ul>
   </div>
 `;
@@ -61,8 +63,19 @@ export const executeCommand = async (
       }
       break;
     case "core":
-      window.open("https://raflyasligalek-core-topan-playground.vercel.app/", "_blank", "noopener,noreferrer");
-      break; 
+      window.open(
+        "https://raflyasligalek-core-topan-playground.vercel.app/",
+        "_blank",
+        "noopener,noreferrer"
+      );
+      break;
+    case "c3d":
+      window.open(
+        "https://chainsaw-3d-raflyasligalek.vercel.app/",
+        "_blank",
+        "noopener,noreferrer"
+      );
+      break;
     case "":
       setOutput([
         ...output,
