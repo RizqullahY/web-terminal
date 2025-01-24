@@ -16,7 +16,8 @@ const help = `
   </div>
 `;
 
-const whoami = `${navigator.userAgent}`;
+const whoami: string = `${navigator.userAgent}`;
+const fileList: String[] = ["virus-kamal.txt"];
 
 // To Execute Command
 export const executeCommand = async (
@@ -73,6 +74,24 @@ export const executeCommand = async (
         "noopener,noreferrer"
       );
       break;
+    case "download":
+      const fileName = args[0];
+      if (!fileName) {
+        setOutput([
+          ...output,
+          `Usage: download <file>. Type 'help' or 'h' to view a list of available commands.`,
+        ]);
+        break;
+      }
+
+      if (fileList.includes(fileName)) {
+        window.open(
+          `https://github.com/RizqullahY/web-terminal/raw/refs/heads/master/public/assets/${fileName}`
+        );
+      } else {
+        setOutput([...output, `Error: File '${fileName}' not found.`]);
+      }
+      break;
     case "c3d":
       window.open(
         "https://chainsaw-3d-raflyasligalek.vercel.app/",
@@ -80,23 +99,6 @@ export const executeCommand = async (
         "noopener,noreferrer"
       );
       break;
-      case "download":
-        if (args.length === 0) {
-          setOutput([...output, "Usage: download <file> - Please specify the file to download."]);
-        } else {
-          const fileName = args.join(" ");
-          try {
-            setOutput([...output, `Downloading file: ${fileName}`]);
-            const link = document.createElement("a");
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          } catch (error: any) {
-            setOutput([...output, `Error: Unable to download file: ${fileName}`]);
-          }
-        }
-        break;
     case "":
       setOutput([
         ...output,
