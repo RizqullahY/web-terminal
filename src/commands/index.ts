@@ -1,5 +1,5 @@
 // commands.ts
-// help | h
+// help | h ✔
 const help = `
   <div class="bg-[#333333] text-white p-2 rounded-md">
     <h3 class="text-lg font-semibold">Available Commands:</h3>
@@ -7,35 +7,73 @@ const help = `
       <li><span class="text-green-400">help</span> - Displays available commands</li>
       <li><span class="text-green-400">whoami</span> - Displays user information</li>
       <li><span class="text-green-400">clear</span> - Clears the terminal</li>
+      <li><span class="text-green-400">ipinfo</span> - Displays your public IP information</li>
     </ul>
   </div>
 `;
 
 const whoami = `This is your terminal.`;
 
-
-
 // To Execute Command
-export const executeCommand = (command: string, output: string[], setOutput: React.Dispatch<React.SetStateAction<string[]>>, setHistory: React.Dispatch<React.SetStateAction<string[]>>, setHistoryIndex: React.Dispatch<React.SetStateAction<number>>, history: string[], historyIndex: number, setCommand: React.Dispatch<React.SetStateAction<string>>) => {
+export const executeCommand = async (
+  command: string,
+  output: string[],
+  setOutput: React.Dispatch<React.SetStateAction<string[]>>,
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
+  setHistoryIndex: React.Dispatch<React.SetStateAction<number>>,
+  history: string[],
+  historyIndex: number,
+  setCommand: React.Dispatch<React.SetStateAction<string>>
+) => {
   switch (command.trim().toLowerCase()) {
-    case 'help':
-    case 'h':
+    case "help":
+    case "h":
       setOutput([...output, help]);
       break;
-    case 'whoami':
+    case "whoami":
       setOutput([...output, whoami]);
       break;
-    case 'clear':
+    case "clear":
       setOutput([]);
       break;
-    case '':
-      setOutput([...output, `Type 'help' or 'h' to view a list of available commands.`]);
+    case "ipinfo":
+      try {
+        const response = await fetch("https://ipinfo.io/json");
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        const ipInfo = `
+          <div class="bg-[#333333] text-white p-2 rounded-md">
+            <h3 class="text-lg font-semibold">IP Information:</h3>
+            <ul class="list-inside space-y-2 mt-2">
+              <li><span class="text-green-400">IP:</span> ${data.ip}</li>
+              <li><span class="text-green-400">City:</span> ${data.city}</li>
+              <li><span class="text-green-400">Region:</span> ${data.region}</li>
+              <li><span class="text-green-400">Country:</span> ${data.country}</li>
+              <li><span class="text-green-400">Provider:</span> ${data.org}</li>
+            </ul>
+          </div>
+        `;
+        setOutput([...output, ipInfo]);
+      } catch (error: any) {
+        setOutput([...output, `Error fetching IP info: ${error.message}`]);
+      }
+      break;
+    case "":
+      setOutput([
+        ...output,
+        `Type 'help' or 'h' to view a list of available commands.`,
+      ]);
       break;
     default:
-      setOutput([...output, `${command}: command not found. Type 'help' or 'h' to view a list of available commands.`]);
+      setOutput([
+        ...output,
+        `${command}: command not found. Type 'help' or 'h' to view a list of available commands.`,
+      ]);
   }
+
   setHistory([...history, command]);
   setHistoryIndex(history.length + 1);
-  setCommand(''); 
+  setCommand("");
 };
-
