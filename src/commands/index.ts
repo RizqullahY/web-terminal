@@ -5,14 +5,14 @@ const help = `
     <h3 class="text-lg font-semibold">Available Commands:</h3>
     <ul class="list-inside space-y-2 mt-2">
       <li><span class="text-green-400">help</span> - Displays available commands</li>
-      <li><span class="text-green-400">whoami</span> - Displays user information</li>
+      <li><span class="text-green-400">whoami</span> - Displays user browser information</li>
       <li><span class="text-green-400">clear</span> - Clears the terminal</li>
       <li><span class="text-green-400">ipinfo</span> - Displays your public IP information</li>
     </ul>
   </div>
 `;
 
-const whoami = `This is your terminal.`;
+const whoami = `${navigator.userAgent}`;
 
 // To Execute Command
 export const executeCommand = async (
@@ -22,7 +22,7 @@ export const executeCommand = async (
   setHistory: React.Dispatch<React.SetStateAction<string[]>>,
   setHistoryIndex: React.Dispatch<React.SetStateAction<number>>,
   history: string[],
-  historyIndex: number,
+  _historyIndex: number,
   setCommand: React.Dispatch<React.SetStateAction<string>>
 ) => {
   switch (command.trim().toLowerCase()) {
@@ -60,6 +60,9 @@ export const executeCommand = async (
         setOutput([...output, `Error fetching IP info: ${error.message}`]);
       }
       break;
+    case "core":
+      window.open("https://raflyasligalek-core-topan-playground.vercel.app/", "_blank", "noopener,noreferrer");
+      break; 
     case "":
       setOutput([
         ...output,

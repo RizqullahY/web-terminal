@@ -19,7 +19,7 @@ const Typewriter = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-20 w-full text-center text-green-400 font-mono text-lg">
+    <div className="flex justify-center items-center h-20 w-full text-center text-green-400 font-mono text-4xl">
       <span ref={typedElement}></span>
     </div>
   );
